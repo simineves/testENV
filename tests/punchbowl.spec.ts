@@ -1,11 +1,21 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
+import * as dotenv from 'dotenv';
 
-test('test', async ({ page }) => {
+dotenv.config();
+
+test('test', async ({ page }: { page: Page}) => {
+  const email = process.env.EMAIL;
+  const password = process.env.PASSWORD;
+
+  if (!email || !password) {
+    throw new Error('Email or password is missing from the environment variables.');
+  }
+
   await page.goto('https://www.punchbowl.com/');
   await page.getByRole('link', { name: 'Sign In' }).click();
   await page.getByLabel('Email').click();
-  await page.getByLabel('Email').fill('nevsimao@yahoo.com');
-  await page.getByLabel('Password').fill('8Mj$e9@Q3dPBFtCk');
+  await page.getByLabel('Email').fill(email);
+  await page.getByLabel('Password').fill(password);
   await page.getByRole('button', { name: 'Sign in' }).press('Enter');
   await page.getByRole('link', { name: 'Pricing' }).click();
   await page.getByTitle('Start your Platinum free trial').click();
