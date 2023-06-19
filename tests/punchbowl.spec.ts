@@ -8,7 +8,7 @@ test('test', async ({ page }: { page: Page}) => {
   const password = process.env.PASSWORD;
 
   if (!email || !password) {
-    throw new Error('Email or password is missing from the environment variables.');
+    throw new Error('Email or password is missing from the env variables.');
   }
 
   await page.goto('https://www.punchbowl.com/');
